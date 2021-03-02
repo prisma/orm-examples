@@ -3,11 +3,13 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
-    "dev": "node src/index.js"
+    "dev": "node src/index.js && npm run studio",
+    "studio": "npx prisma studio"
   },
   "dependencies": {
     "@prisma/client": "2.18.0",
     "fastify": "3.12.0",
+    "fastify-blipp": "^3.0.0",
     "fastify-formbody": "5.0.0"
   },
   "devDependencies": {

@@ -1,10 +1,10 @@
-const fastify = require('fastify')
 const { PrismaClient } = require('@prisma/client')
+const app = require('fastify')({ logger: true })
 
 const prisma = new PrismaClient()
-const app = fastify({ logger: true })
 
 app.register(require('fastify-formbody'))
+app.register(require("fastify-blipp"))
 
 app.post(`/user`, async (req, res) => {
   const result = await prisma.user.create({
@@ -12,7 +12,7 @@ app.post(`/user`, async (req, res) => {
       ...req.body,
     },
   })
-  res.send(result)
+  return result
 })
 
 app.post(`/post`, async (req, res) => {
@@ -25,7 +25,7 @@ app.post(`/post`, async (req, res) => {
       author: { connect: { email: authorEmail } },
     },
   })
-  res.send(result)
+  return result
 })
 
 app.put('/publish/:id', async (req, res) => {
@@ -36,7 +36,7 @@ app.put('/publish/:id', async (req, res) => {
     },
     data: { published: true },
   })
-  res.send(post)
+  return post
 })
 
 app.delete(`/post/:id`, async (req, res) => {
@@ -46,7 +46,7 @@ app.delete(`/post/:id`, async (req, res) => {
       id: parseInt(id),
     },
   })
-  res.send(post)
+  return post
 })
 
 app.get(`/post/:id`, async (req, res) => {
@@ -56,7 +56,7 @@ app.get(`/post/:id`, async (req, res) => {
       id: parseInt(id),
     },
   })
-  res.send(post)
+  return post
 })
 
 app.get('/feed', async (req, res) => {
@@ -64,7 +64,7 @@ app.get('/feed', async (req, res) => {
     where: { published: true },
     include: { author: true },
   })
-  res.send(posts)
+  return posts
 })
 
 app.get('/filterPosts', async (req, res) => {
@@ -85,11 +85,20 @@ app.get('/filterPosts', async (req, res) => {
       ],
     },
   })
-  res.send(draftPosts)
+  return draftPosts
 })
 
-const server = app.listen(3000, () =>
-  console.log(
-    '🚀 Server ready at: http://localhost:3000\n⭐️ See sample requests: https://github.com/prisma/prisma-examples/tree/latest/javascript/rest-fastify#using-the-rest-api',
-  ),
-)
+const start = async () => {
+  try {
+    await app.listen(3000);
+ 
+    app.blipp();
+ 
+    console.log('🚀 Server ready at: http://localhost:3000\n⭐️ See sample requests: http://pris.ly/e/ts/rest-express#3-using-the-rest-api');
+  } catch (err) {
+    app.log.error(err);
+    process.exit(1);
+  }
+};
+ 
+start();
