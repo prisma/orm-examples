@@ -1,5 +1,5 @@
 import { ApolloServer } from 'apollo-server-micro'
-import { GraphQLDate } from 'graphql-iso-date'
+import { GraphQLDate } from 'graphql-scalars'
 import {
   asNexusMethod,
   makeSchema,

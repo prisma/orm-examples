@@ -1,8 +1,8 @@
 import Layout from '../../components/Layout'
 import Router, { useRouter } from 'next/router'
-import { withApollo } from '../../apollo/client'
 import gql from 'graphql-tag'
-import { useQuery, useMutation } from '@apollo/react-hooks'
+import { useQuery, useMutation } from '@apollo/client'
+import extractApolloCache from '../../apollo/extractApolloCache'
 
 const PostQuery = gql`
   query PostQuery($postId: String!) {
@@ -49,7 +49,7 @@ const DeleteMutation = gql`
   }
 `
 
-function Post() {
+export default function Post() {
   const postId = useRouter().query.id
   const { loading, error, data } = useQuery(PostQuery, {
     variables: { postId },
@@ -83,26 +83,28 @@ function Post() {
         <p>{data.post.content}</p>
         {!data.post.published && (
           <button
-            onClick={async e => {
+            onClick={async (e) => {
               await publish({
                 variables: {
                   postId,
                 },
               })
               Router.push('/')
-            }}>
+            }}
+          >
             Publish
           </button>
         )}
         <button
-          onClick={async e => {
+          onClick={async (e) => {
             await deletePost({
               variables: {
                 postId,
               },
             })
             Router.push('/')
-          }}>
+          }}
+        >
           Delete
         </button>
       </div>
@@ -131,4 +133,10 @@ function Post() {
   )
 }
 
-export default withApollo(Post)
+export const getServerSideProps = extractApolloCache(async (client, params) => {
+  const postId = params.id
+  await client.query({
+    query: PostQuery,
+    variables: { postId },
+  })
+})

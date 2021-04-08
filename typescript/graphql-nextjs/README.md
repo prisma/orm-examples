@@ -2,6 +2,8 @@
 
 This example shows how to implement a **fullstack app in TypeScript with [Next.js](https://nextjs.org/)** using [React](https://reactjs.org/), [Apollo Client](https://www.apollographql.com/docs/react/) (frontend), [Nexus Schema](https://nxs.li/components/standalone/schema) and [Prisma Client](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client) (backend). It uses a SQLite database file with some initial dummy data which you can find at [`./prisma/dev.db`](./prisma/dev.db).
 
+Note that this example is primarily to illustrate integrating Prisma with your Next.js + Apollo setup. If you want a more complete exploration of using GraphQL with Next.js - such as how to add authentication, server-side rendering, and static rendering - then you should check out Next.js's [extensive examples collection](https://github.com/vercel/next.js/tree/canary/examples).
+
 ## Getting started
 
 ### 1. Download example and install dependencies
@@ -49,7 +51,6 @@ Now, seed the database with the sample data in [`prisma/seed.ts`](./prisma/seed.
 ```
 npx prisma db seed --preview-feature
 ```
-
 
 ### 2. Start the app
 
@@ -115,12 +116,7 @@ query {
 
 ```graphql
 mutation {
-  signupUser(
-    data: {
-      name: "Sarah"
-      email: "sarah@prisma.io"
-    }
-  ) {
+  signupUser(data: { name: "Sarah", email: "sarah@prisma.io" }) {
     id
   }
 }
@@ -196,8 +192,7 @@ mutation {
 
 ```graphql
 mutation {
-  deleteOnePost(where: {id: __POST_ID__})
-  {
+  deleteOnePost(where: { id: __POST_ID__ }) {
     id
   }
 }
@@ -206,7 +201,6 @@ mutation {
 > **Note**: You need to replace the `__POST_ID__`-placeholder with an actual `id` from a `Post` item. You can find one e.g. using the `filterPosts`-query.
 
 </Details>
-
 
 ## Evolving the app
 
@@ -348,7 +342,7 @@ const Mutation = objectType({
 +     args: {
 +       email: stringArg(),
 +       bio: stringArg()
-+     }, 
++     },
 +     resolve: async (_, args, context) => {
 +       return context.prisma.profile.create({
 +         data: {
@@ -371,10 +365,7 @@ Finally, you can test the new mutation like this:
 
 ```graphql
 mutation {
-  addProfileForUser(
-    email: "mahmoud@prisma.io"
-    bio: "I like turtles"
-  ) {
+  addProfileForUser(email: "mahmoud@prisma.io", bio: "I like turtles") {
     id
     bio
     user {

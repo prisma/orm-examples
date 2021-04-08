@@ -1,8 +1,8 @@
-import Layout from "../components/Layout"
-import Link from "next/link"
-import { withApollo } from "../apollo/client"
-import gql from "graphql-tag"
-import { useQuery } from "@apollo/react-hooks"
+import Layout from '../components/Layout'
+import Link from 'next/link'
+import gql from 'graphql-tag'
+import { useQuery } from '@apollo/client'
+import extractApolloCache from '../apollo/extractApolloCache'
 
 const FeedQuery = gql`
   query FeedQuery {
@@ -37,7 +37,7 @@ const Post = ({ post }) => (
   </Link>
 )
 
-const Blog = () => {
+export default function Blog() {
   const { loading, error, data } = useQuery(FeedQuery)
 
   if (loading) {
@@ -77,4 +77,8 @@ const Blog = () => {
   )
 }
 
-export default withApollo(Blog)
+export const getServerSideProps = extractApolloCache(async (client) => {
+  await client.query({
+    query: FeedQuery,
+  })
+})

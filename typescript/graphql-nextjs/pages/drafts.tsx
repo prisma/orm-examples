@@ -1,8 +1,8 @@
-import Layout from "../components/Layout"
-import Link from "next/link"
-import { withApollo } from "../apollo/client"
-import gql from "graphql-tag"
-import { useQuery } from "@apollo/react-hooks"
+import Layout from '../components/Layout'
+import Link from 'next/link'
+import gql from 'graphql-tag'
+import { useQuery } from '@apollo/client'
+import extractApolloCache from '../apollo/extractApolloCache'
 
 const DraftsQuery = gql`
   query DraftsQuery {
@@ -23,7 +23,7 @@ const Post = ({ post }) => (
   <Link href="/p/[id]" as={`/p/${post.id}`}>
     <a>
       <h2>{post.title}</h2>
-      <small>By {post.author ? post.author.name : "Unknown Author"}</small>
+      <small>By {post.author ? post.author.name : 'Unknown Author'}</small>
       <p>{post.content}</p>
       <style jsx>{`
         a {
@@ -37,7 +37,7 @@ const Post = ({ post }) => (
   </Link>
 )
 
-const Drafts = () => {
+export default function Drafts() {
   const { loading, error, data } = useQuery(DraftsQuery)
 
   if (loading) {
@@ -77,4 +77,8 @@ const Drafts = () => {
   )
 }
 
-export default withApollo(Drafts)
+export const getServerSideProps = extractApolloCache(async (client) => {
+  await client.query({
+    query: DraftsQuery,
+  })
+})

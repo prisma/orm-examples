@@ -8,30 +8,30 @@ A date string, such as 2007-12-03, compliant with the `full-date` format outline
 scalar Date
 
 type Mutation {
-  createDraft(authorEmail: String, content: String, title: String!): Post!
+  createDraft(authorEmail: String, content: String, title: String!): Post
   deletePost(postId: String): Post
   publish(postId: String): Post
-  signupUser(email: String!, name: String): User!
+  signupUser(email: String!, name: String): User
 }
 
 type Post {
   author: User
   content: String
-  id: Int!
-  published: Boolean!
-  title: String!
+  id: Int
+  published: Boolean
+  title: String
 }
 
 type Query {
-  drafts: [Post!]!
-  feed: [Post!]!
-  filterPosts(searchString: String): [Post!]!
-  post(postId: String!): Post!
+  drafts: [Post]
+  feed: [Post]
+  filterPosts(searchString: String): [Post]
+  post(postId: String!): Post
 }
 
 type User {
-  email: String!
-  id: Int!
-  name: String!
-  posts: [Post!]!
+  email: String
+  id: Int
+  name: String
+  posts: [Post]
 }
