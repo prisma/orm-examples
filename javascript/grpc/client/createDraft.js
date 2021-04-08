@@ -21,7 +21,7 @@ function main() {
   const data = {
     title: 'Hello World',
     content: '',
-    authorEmail: 'alice@prisma.io'
+    authorEmail: 'alice@prisma.io',
   }
   client.signupUser(data, (err, response) => {
     if (err) {

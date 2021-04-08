@@ -71,48 +71,64 @@ const resolvers = {
     },
     postById: (_parent, args: { id: number }, context: Context) => {
       return context.prisma.post.findUnique({
-        where: { id: args.id || undefined }
+        where: { id: args.id || undefined },
       })
     },
-    feed: (_parent, args: {
-      searchString: string,
-      skip: number,
-      take: number,
-      orderBy: PostOrderByUpdatedAtInput,
-    }, context: Context) => {
-      const or = args.searchString ? {
-        OR: [
-          { title: { contains: args.searchString } },
-          { content: { contains: args.searchString } }
-        ]
-      } : {}
+    feed: (
+      _parent,
+      args: {
+        searchString: string
+        skip: number
+        take: number
+        orderBy: PostOrderByUpdatedAtInput
+      },
+      context: Context,
+    ) => {
+      const or = args.searchString
+        ? {
+            OR: [
+              { title: { contains: args.searchString } },
+              { content: { contains: args.searchString } },
+            ],
+          }
+        : {}
 
       return context.prisma.post.findMany({
         where: {
           published: true,
-          ...or
+          ...or,
         },
         take: args?.take,
         skip: args?.skip,
-        orderBy: args?.orderBy
+        orderBy: args?.orderBy,
       })
     },
-    draftsByUser: (_parent, args: { userUniqueInput: UserUniqueInput }, context: Context) => {
-      return context.prisma.user.findUnique({
-        where: {
-          id: args.userUniqueInput.id || undefined,
-          email: args.userUniqueInput.email || undefined,
-        },
-      }).posts({
-        where: {
-          published: false
-        },
-      })
-    }
+    draftsByUser: (
+      _parent,
+      args: { userUniqueInput: UserUniqueInput },
+      context: Context,
+    ) => {
+      return context.prisma.user
+        .findUnique({
+          where: {
+            id: args.userUniqueInput.id || undefined,
+            email: args.userUniqueInput.email || undefined,
+          },
+        })
+        .posts({
+          where: {
+            published: false,
+          },
+        })
+    },
   },
   Mutation: {
-    signupUser: (_parent, args: { data: UserCreateInput }, context: Context) => {
-      const postData = args.data.posts?.map(post => {
+    signupUser: (
+      _parent,
+      args: { data: UserCreateInput },
+      context: Context,
+    ) => {
+      const postData = args.data.posts?.map((post) => {
         return { title: post.title, content: post.content || undefined }
       })
 
@@ -121,12 +137,16 @@ const resolvers = {
           name: args.data.name,
           email: args.data.email,
           posts: {
-            create: postData
-          }
+            create: postData,
+          },
         },
       })
     },
-    createDraft: (_parent, args: { data: PostCreateInput, authorEmail: string }, context: Context) => {
+    createDraft: (
+      _parent,
+      args: { data: PostCreateInput; authorEmail: string },
+      context: Context,
+    ) => {
       return context.prisma.post.create({
         data: {
           title: args.data.title,
@@ -137,13 +157,17 @@ const resolvers = {
         },
       })
     },
-    togglePublishPost: async (_parent, args: { id: number }, context: Context) => {
+    togglePublishPost: async (
+      _parent,
+      args: { id: number },
+      context: Context,
+    ) => {
       try {
         const post = await context.prisma.post.findUnique({
           where: { id: args.id || undefined },
           select: {
-            published: true
-          }
+            published: true,
+          },
         })
 
         return context.prisma.post.update({
@@ -156,13 +180,17 @@ const resolvers = {
         )
       }
     },
-    incrementPostViewCount: (_parent, args: { id: number }, context: Context) => {
+    incrementPostViewCount: (
+      _parent,
+      args: { id: number },
+      context: Context,
+    ) => {
       return context.prisma.post.update({
         where: { id: args.id || undefined },
         data: {
           viewCount: {
-            increment: 1
-          }
+            increment: 1,
+          },
         },
       })
     },
@@ -170,28 +198,32 @@ const resolvers = {
       return context.prisma.post.delete({
         where: { id: args.id },
       })
-    }
+    },
   },
   DateTime: GraphQLDateTime,
   Post: {
     author: (parent, _args, context: Context) => {
-      return context.prisma.post.findUnique({
-        where: { id: parent?.id }
-      }).author()
-    }
+      return context.prisma.post
+        .findUnique({
+          where: { id: parent?.id },
+        })
+        .author()
+    },
   },
   User: {
     posts: (parent, _args, context: Context) => {
-      return context.prisma.user.findUnique({
-        where: { id: parent?.id }
-      }).posts()
-    }
-  }
+      return context.prisma.user
+        .findUnique({
+          where: { id: parent?.id },
+        })
+        .posts()
+    },
+  },
 }
 
 enum SortOrder {
-  asc = "asc",
-  desc = "desc"
+  asc = 'asc',
+  desc = 'desc',
 }
 
 interface PostOrderByUpdatedAtInput {
@@ -199,23 +231,22 @@ interface PostOrderByUpdatedAtInput {
 }
 
 interface UserUniqueInput {
-  id?: number,
+  id?: number
   email?: string
 }
 
 interface PostCreateInput {
-  title: string,
-  content?: string,
+  title: string
+  content?: string
 }
 
 interface UserCreateInput {
-  email: string,
-  name?: string,
-  posts?: PostCreateInput[],
+  email: string
+  name?: string
+  posts?: PostCreateInput[]
 }
 
 export const schema = makeExecutableSchema({
   resolvers,
   typeDefs,
 })
-

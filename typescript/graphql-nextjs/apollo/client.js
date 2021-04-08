@@ -37,7 +37,7 @@ export function withApollo(PageComponent, { ssr = true } = {}) {
   }
 
   if (ssr || PageComponent.getInitialProps) {
-    WithApollo.getInitialProps = async ctx => {
+    WithApollo.getInitialProps = async (ctx) => {
       const { AppTree } = ctx
 
       // Initialize ApolloClient, add it to the ctx object so
@@ -69,7 +69,7 @@ export function withApollo(PageComponent, { ssr = true } = {}) {
                   ...pageProps,
                   apolloClient,
                 }}
-              />
+              />,
             )
           } catch (error) {
             // Prevent Apollo Client GraphQL errors from crashing SSR.

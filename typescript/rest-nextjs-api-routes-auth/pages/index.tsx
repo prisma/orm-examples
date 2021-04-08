@@ -1,7 +1,7 @@
-import React from "react";
-import { GetStaticProps } from "next";
-import Layout from "../components/Layout";
-import Post, { PostProps } from "../components/Post";
+import React from 'react'
+import { GetStaticProps } from 'next'
+import Layout from '../components/Layout'
+import Post, { PostProps } from '../components/Post'
 import prisma from '../lib/prisma'
 
 export const getStaticProps: GetStaticProps = async () => {
@@ -16,15 +16,15 @@ export const getStaticProps: GetStaticProps = async () => {
         },
       },
     },
-  });
+  })
   return {
     props: { feed },
-  };
-};
+  }
+}
 
 type Props = {
-  feed: PostProps[];
-};
+  feed: PostProps[]
+}
 
 const Blog: React.FC<Props> = (props) => {
   return (
@@ -54,7 +54,7 @@ const Blog: React.FC<Props> = (props) => {
         }
       `}</style>
     </Layout>
-  );
-};
+  )
+}
 
-export default Blog;
+export default Blog

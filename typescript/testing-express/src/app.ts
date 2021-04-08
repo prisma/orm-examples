@@ -12,12 +12,12 @@ app.get(`/user`, async (_req, res) => {
 })
 
 app.post(`/user`, async (req, res) => {
-  const {name, email} = req.body
+  const { name, email } = req.body
   try {
     const result = await prisma.user.create({
       data: {
         name,
-        email
+        email,
       },
     })
     res.json(result)

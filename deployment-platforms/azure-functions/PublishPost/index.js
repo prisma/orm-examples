@@ -12,7 +12,7 @@ module.exports = async function (context, req) {
     },
   })
 
-  return  {
+  return {
     status: 200,
     body: publishedPost,
   }

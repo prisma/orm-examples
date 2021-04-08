@@ -7,13 +7,13 @@ type Props = {
   feed: PostProps[]
 }
 
-const Blog: React.FC<Props> = props => {
+const Blog: React.FC<Props> = (props) => {
   return (
     <Layout>
       <div className="page">
         <h1>My Blog</h1>
         <main>
-          {props.feed.map(post => (
+          {props.feed.map((post) => (
             <div key={post.id} className="post">
               <Post post={post} />
             </div>

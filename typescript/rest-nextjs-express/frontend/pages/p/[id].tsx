@@ -19,7 +19,7 @@ async function destroy(id: number): Promise<void> {
   await Router.push('/')
 }
 
-const Post: React.FC<PostProps> = props => {
+const Post: React.FC<PostProps> = (props) => {
   let title = props.title
   if (!props.published) {
     title = `${title} (Draft)`
@@ -32,13 +32,9 @@ const Post: React.FC<PostProps> = props => {
         <p>By {props?.author?.name || 'Unknown author'}</p>
         <ReactMarkdown source={props.content} />
         {!props.published && (
-          <button onClick={() => publish(props.id)}>
-            Publish
-          </button>
+          <button onClick={() => publish(props.id)}>Publish</button>
         )}
-        <button onClick={() => destroy(props.id)}>
-          Delete
-        </button>
+        <button onClick={() => destroy(props.id)}>Delete</button>
       </div>
       <style jsx>{`
         .page {

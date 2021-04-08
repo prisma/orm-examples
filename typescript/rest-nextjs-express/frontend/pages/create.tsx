@@ -25,25 +25,24 @@ const Draft: React.FC = () => {
   return (
     <Layout>
       <div>
-        <form
-          onSubmit={submitData}>
+        <form onSubmit={submitData}>
           <h1>Create Draft</h1>
           <input
             autoFocus
-            onChange={e => setTitle(e.target.value)}
+            onChange={(e) => setTitle(e.target.value)}
             placeholder="Title"
             type="text"
             value={title}
           />
           <input
-            onChange={e => setAuthorEmail(e.target.value)}
+            onChange={(e) => setAuthorEmail(e.target.value)}
             placeholder="Author (email address)"
             type="text"
             value={authorEmail}
           />
           <textarea
             cols={50}
-            onChange={e => setContent(e.target.value)}
+            onChange={(e) => setContent(e.target.value)}
             placeholder="Content"
             rows={8}
             value={content}

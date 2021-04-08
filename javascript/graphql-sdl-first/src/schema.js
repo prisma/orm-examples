@@ -4,7 +4,7 @@
  */
 
 const { makeExecutableSchema } = require('apollo-server')
-const { GraphQLDateTime } = require("graphql-iso-date")
+const { GraphQLDateTime } = require('graphql-iso-date')
 
 const typeDefs = `
 type Mutation {
@@ -79,72 +79,75 @@ const resolvers = {
       return context.prisma.user.findMany()
     },
     /**
-     * 
-     * @param {any} _parent 
-     * @param {{id: number}} args 
-     * @param {{ prisma: Prisma }} context 
-     * @returns 
+     *
+     * @param {any} _parent
+     * @param {{id: number}} args
+     * @param {{ prisma: Prisma }} context
+     * @returns
      */
     postById: (_parent, args, context) => {
       return context.prisma.post.findUnique({
-        where: { id: args.id || undefined }
+        where: { id: args.id || undefined },
       })
     },
     /**
-     * 
-     * @param {any} _parent 
+     *
+     * @param {any} _parent
      * @param {{searchString?: string, skip?: number, take?: number, orderBy?:{"asc", "desc"}}} args
      * @param {{ prisma: Prisma }} context
      */
     feed: (_parent, args, context) => {
-      const or = args.searchString ? {
-        OR: [
-          { title: { contains: args.searchString } },
-          { content: { contains: args.searchString } }
-        ]
-      } : {}
+      const or = args.searchString
+        ? {
+            OR: [
+              { title: { contains: args.searchString } },
+              { content: { contains: args.searchString } },
+            ],
+          }
+        : {}
 
       return context.prisma.post.findMany({
         where: {
           published: true,
-          ...or
+          ...or,
         },
         take: args.take || undefined,
         skip: args.skip || undefined,
-        orderBy: args.orderBy || undefined
+        orderBy: args.orderBy || undefined,
       })
     },
     /**
-     * 
-     * @param {any} _parent 
-     * @param {{userUniqueInput: { id: number, email: string}}} args 
+     *
+     * @param {any} _parent
+     * @param {{userUniqueInput: { id: number, email: string}}} args
      * @param {{ prisma: Prisma }} context
      */
     draftsByUser: (_parent, args, context) => {
-      return context.prisma.user.findUnique({
-        where: {
-          id: args.userUniqueInput.id || undefined,
-          email: args.userUniqueInput.email || undefined,
-        },
-      }).posts({
-        where: {
-          published: false
-        },
-      })
-    }
+      return context.prisma.user
+        .findUnique({
+          where: {
+            id: args.userUniqueInput.id || undefined,
+            email: args.userUniqueInput.email || undefined,
+          },
+        })
+        .posts({
+          where: {
+            published: false,
+          },
+        })
+    },
   },
   Mutation: {
     /**
-     * @param {any} _parent 
-     * @param {{data: {email: string, name?: string, post?: {title: string, email: string}[]}}} args 
-     * @param {{ prisma: Prisma }} context 
+     * @param {any} _parent
+     * @param {{data: {email: string, name?: string, post?: {title: string, email: string}[]}}} args
+     * @param {{ prisma: Prisma }} context
      */
     signupUser: (_parent, args, context) => {
-
       const postData = args.data.posts
         ? args.data.posts.map((post) => {
-          return { title: post.title, content: post.content || undefined }
-        })
+            return { title: post.title, content: post.content || undefined }
+          })
         : []
 
       return context.prisma.user.create({
@@ -152,14 +155,14 @@ const resolvers = {
           name: args.data.name,
           email: args.data.email,
           posts: {
-            create: postData
-          }
+            create: postData,
+          },
         },
       })
     },
     /**
-     * @param {any} _parent 
-     * @param {{data:{ title: string, content?: string }, authorEmail: string}} args 
+     * @param {any} _parent
+     * @param {{data:{ title: string, content?: string }, authorEmail: string}} args
      * @param {{ prisma: Prisma }} context
      */
     createDraft: (_parent, args, context) => {
@@ -174,9 +177,9 @@ const resolvers = {
       })
     },
     /**
-     * 
-     * @param {any} _parent 
-     * @param {{id: number}} args 
+     *
+     * @param {any} _parent
+     * @param {{id: number}} args
      * @param {{ prisma: Prisma }} context
      */
     togglePublishPost: async (_parent, args, context) => {
@@ -184,8 +187,8 @@ const resolvers = {
         const post = await context.prisma.post.findUnique({
           where: { id: args.id || undefined },
           select: {
-            published: true
-          }
+            published: true,
+          },
         })
 
         return context.prisma.post.update({
@@ -199,8 +202,8 @@ const resolvers = {
       }
     },
     /**
-     * @param {any} _parent 
-     * @param {*} args 
+     * @param {any} _parent
+     * @param {*} args
      * @param {{ prisma: Prisma }} context
      */
     incrementPostViewCount: (_parent, args, context) => {
@@ -208,21 +211,21 @@ const resolvers = {
         where: { id: args.id || undefined },
         data: {
           viewCount: {
-            increment: 1
-          }
+            increment: 1,
+          },
         },
       })
     },
     /**
-     * @param {any} _parent 
-     * @param {{id: number}} args 
+     * @param {any} _parent
+     * @param {{id: number}} args
      * @param {{ prisma: Prisma }} context
      */
     deletePost: (_parent, args, context) => {
       return context.prisma.post.delete({
         where: { id: args.id },
       })
-    }
+    },
   },
   User: {
     /**
@@ -252,7 +255,7 @@ const resolvers = {
         .author()
     },
   },
-  DateTime: GraphQLDateTime
+  DateTime: GraphQLDateTime,
 }
 
 const schema = makeExecutableSchema({

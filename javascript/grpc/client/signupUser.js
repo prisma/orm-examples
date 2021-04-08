@@ -20,9 +20,9 @@ function main() {
   // Create new user
   const data = {
     name: 'Sarah',
-    email: 'sarah@prisma.io'
+    email: 'sarah@prisma.io',
   }
-  client.signupUser(data , (err, response) => {
+  client.signupUser(data, (err, response) => {
     if (err) {
       console.error(err)
       return

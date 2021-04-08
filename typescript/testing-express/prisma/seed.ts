@@ -14,7 +14,6 @@ const userData: Prisma.UserCreateInput[] = [
   {
     name: 'Mahmoud',
     email: 'mahmoud@prisma.io',
-    },
   },
 ]
 

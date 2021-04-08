@@ -9,7 +9,7 @@ app.use(express.json())
 app.get('/drafts', async (req, res) => {
   const posts = await prisma.post.findMany({
     where: { published: false },
-    include: { author: true }
+    include: { author: true },
   })
   res.json(posts)
 })
@@ -17,13 +17,13 @@ app.get('/drafts', async (req, res) => {
 app.get('/feed', async (req, res) => {
   const posts = await prisma.post.findMany({
     where: { published: true },
-    include: { author: true }
+    include: { author: true },
   })
   res.json(posts)
 })
 
 app.get('/filterPosts', async (req, res) => {
-  const { searchString }: { searchString?: string } = req.query;
+  const { searchString }: { searchString?: string } = req.query
   const filteredPosts = await prisma.post.findMany({
     where: {
       OR: [
@@ -72,7 +72,7 @@ app.get(`/post/:id`, async (req, res) => {
     where: {
       id: Number(id),
     },
-    include: { author: true }
+    include: { author: true },
   })
   res.json(post)
 })
@@ -96,7 +96,5 @@ app.post(`/user`, async (req, res) => {
 })
 
 const server = app.listen(3001, () =>
-  console.log(
-    '🚀 Server ready at: http://localhost:3001',
-  ),
+  console.log('🚀 Server ready at: http://localhost:3001'),
 )

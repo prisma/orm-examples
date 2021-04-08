@@ -17,7 +17,7 @@ function main() {
     grpc.credentials.createInsecure(),
   )
 
-  client.filterPosts({ searchString: "" }, (err, response) => {
+  client.filterPosts({ searchString: '' }, (err, response) => {
     if (err) {
       console.error(err)
       return

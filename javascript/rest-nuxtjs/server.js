@@ -11,7 +11,7 @@ app.use(express.json())
 app.get('/api/drafts', async (req, res) => {
   const posts = await prisma.post.findMany({
     where: { published: false },
-    include: { author: true }
+    include: { author: true },
   })
   res.json(posts)
 })
@@ -65,7 +65,7 @@ app.get(`/api/post/:id`, async (req, res) => {
     where: {
       id: parseInt(id),
     },
-    include: { author: true }
+    include: { author: true },
   })
   res.json(post)
 })

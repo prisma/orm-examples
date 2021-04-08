@@ -83,26 +83,28 @@ function Post() {
         <p>{data.post.content}</p>
         {!data.post.published && (
           <button
-            onClick={async e => {
+            onClick={async (e) => {
               await publish({
                 variables: {
                   postId,
                 },
               })
               Router.push('/')
-            }}>
+            }}
+          >
             Publish
           </button>
         )}
         <button
-          onClick={async e => {
+          onClick={async (e) => {
             await deletePost({
               variables: {
                 postId,
               },
             })
             Router.push('/')
-          }}>
+          }}
+        >
           Delete
         </button>
       </div>

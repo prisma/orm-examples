@@ -1,0 +1,46 @@
+name: formatting with prettier.
+
+on:
+  push:
+    branches:
+      - latest
+    paths-ignore:
+      - '**/package.json'
+      - '**/*.md'
+      - '**/*.yaml'
+      - '**/*.sh'
+
+defaults:
+  run:
+    working-directory: .github/tools
+
+jobs:
+  build:
+  
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '12'
+    
+      - name: Cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.OS }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.OS }}-node-
+            ${{ runner.OS }}-
+
+      - run: |
+          npm ci
+          npm run prettier-fix --if-present
+          git config --global user.name 'Prismo'
+          git config --global user.email 'prismabots@gmail.com'
+          git commit -am 'Automated formatting'
+          git push
+
+

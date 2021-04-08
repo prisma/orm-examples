@@ -36,8 +36,10 @@ const seedUser = {
   posts: {
     create: [
       {
-        title: 'Comparing Database Types: How Database Types Evolved to Meet Different Needs',
-        content: 'https://www.prisma.io/blog/comparison-of-database-models-1iz9u29nwn37/',
+        title:
+          'Comparing Database Types: How Database Types Evolved to Meet Different Needs',
+        content:
+          'https://www.prisma.io/blog/comparison-of-database-models-1iz9u29nwn37/',
       },
       {
         title: 'Analysing Sleep Patterns: The Quantified Self',

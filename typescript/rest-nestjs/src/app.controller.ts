@@ -13,7 +13,7 @@ import { User as UserModel, Post as PostModel, Prisma } from '@prisma/client'
 
 @Controller()
 export class AppController {
-  constructor(private readonly prismaService: PrismaService) { }
+  constructor(private readonly prismaService: PrismaService) {}
 
   @Get('post/:id')
   async getPostById(@Param('id') id: string): Promise<PostModel> {
@@ -27,24 +27,26 @@ export class AppController {
     @Query('searchString') searchString?: string,
     @Query('orderBy') orderBy?: 'asc' | 'desc',
   ): Promise<PostModel[]> {
-    const or = searchString ? {
-      OR: [
-        { title: { contains: searchString } },
-        { content: { contains: searchString } },
-      ],
-    } : {}
+    const or = searchString
+      ? {
+          OR: [
+            { title: { contains: searchString } },
+            { content: { contains: searchString } },
+          ],
+        }
+      : {}
 
     return this.prismaService.post.findMany({
       where: {
         published: true,
-        ...or
+        ...or,
       },
       include: { author: true },
       take: Number(take) || undefined,
       skip: Number(skip) || undefined,
       orderBy: {
-        updatedAt: orderBy
-      }
+        updatedAt: orderBy,
+      },
     })
   }
 
@@ -55,13 +57,15 @@ export class AppController {
 
   @Get('user/:id/drafts')
   async getDraftsByUser(@Param('id') id: string): Promise<PostModel[]> {
-    return this.prismaService.user.findUnique({
-      where: { id: Number(id) }
-    }).posts({
-      where: {
-        published: false
-      }
-    })
+    return this.prismaService.user
+      .findUnique({
+        where: { id: Number(id) },
+      })
+      .posts({
+        where: {
+          published: false,
+        },
+      })
   }
 
   @Post('post')
@@ -82,9 +86,13 @@ export class AppController {
 
   @Post('signup')
   async signupUser(
-    @Body() userData: { name?: string; email: string, posts?: Prisma.PostCreateInput[] },
+    @Body()
+    userData: {
+      name?: string
+      email: string
+      posts?: Prisma.PostCreateInput[]
+    },
   ): Promise<UserModel> {
-
     const postData = userData.posts?.map((post) => {
       return { title: post?.title, content: post?.content }
     })
@@ -93,20 +101,19 @@ export class AppController {
         name: userData?.name,
         email: userData.email,
         posts: {
-          create: postData
-        }
+          create: postData,
+        },
       },
     })
   }
 
   @Put('publish/:id')
   async togglePublishPost(@Param('id') id: string): Promise<PostModel> {
-
     const postData = await this.prismaService.post.findUnique({
       where: { id: Number(id) },
       select: {
-        published: true
-      }
+        published: true,
+      },
     })
 
     return this.prismaService.post.update({
@@ -126,9 +133,9 @@ export class AppController {
       where: { id: Number(id) },
       data: {
         viewCount: {
-          increment: 1
-        }
-      }
+          increment: 1,
+        },
+      },
     })
   }
 }

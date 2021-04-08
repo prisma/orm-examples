@@ -4,10 +4,10 @@ import { useRouter } from 'next/router'
 
 const Header: React.FC = () => {
   const router = useRouter()
-  const isActive: (pathname: string) => boolean =
-    pathname => router.pathname === pathname
+  const isActive: (pathname: string) => boolean = (pathname) =>
+    router.pathname === pathname
 
-  return(
+  return (
     <nav>
       <div className="left">
         <Link href="/">

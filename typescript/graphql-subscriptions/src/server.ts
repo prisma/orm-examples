@@ -14,5 +14,7 @@ const server = new ApolloServer({
 server.listen({ port: PORT }).then(({ url, subscriptionsUrl }) => {
   console.log(`🚀 Server ready at ${url}`)
   console.log(`⏰ Subscriptions ready at ${subscriptionsUrl}`)
-  console.log(`⭐️ See sample queries: http://pris.ly/e/ts/graphql-subscriptions#using-the-graphql-api`)
+  console.log(
+    `⭐️ See sample queries: http://pris.ly/e/ts/graphql-subscriptions#using-the-graphql-api`,
+  )
 })

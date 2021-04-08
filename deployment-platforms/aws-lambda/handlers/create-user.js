@@ -1,7 +1,4 @@
-const {
-  Prisma,
-  PrismaClient
-} = require('@prisma/client')
+const { Prisma, PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient()
 
 exports.handler = async (event, context, callback) => {
@@ -12,7 +9,7 @@ exports.handler = async (event, context, callback) => {
     return {
       statusCode: 200,
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(createdUser)
+      body: JSON.stringify(createdUser),
     }
   } catch (e) {
     if (e instanceof Prisma.PrismaClientRequestError) {
@@ -21,8 +18,8 @@ exports.handler = async (event, context, callback) => {
           statusCode: 409,
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            error: 'A user with this email already exists'
-          })
+            error: 'A user with this email already exists',
+          }),
         }
       }
     }

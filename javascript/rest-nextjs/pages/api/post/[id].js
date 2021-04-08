@@ -9,7 +9,7 @@ export default async function handle(req, res) {
     handleDELETE(postId, res)
   } else {
     throw new Error(
-      `The HTTP ${req.method} method is not supported at this route.`
+      `The HTTP ${req.method} method is not supported at this route.`,
     )
   }
 }

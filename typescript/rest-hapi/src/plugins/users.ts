@@ -19,31 +19,26 @@ const usersPlugin = {
         handler: signupHandler,
       },
     ]),
-
       server.route([
         {
           method: 'GET',
           path: '/users',
-          handler: getAllUsersHandler
-        }
+          handler: getAllUsersHandler,
+        },
       ]),
-
       server.route([
         {
           method: 'GET',
           path: '/user/{userId}/drafts',
-          handler: getDraftsByUserHandler
-        }
+          handler: getDraftsByUserHandler,
+        },
       ])
   },
 }
 
 export default usersPlugin
 
-async function signupHandler(
-  request: Hapi.Request,
-  h: Hapi.ResponseToolkit,
-) {
+async function signupHandler(request: Hapi.Request, h: Hapi.ResponseToolkit) {
   const { prisma } = request.server.app
   const { name, email, posts } = request.payload as any
 
@@ -57,8 +52,8 @@ async function signupHandler(
         name,
         email,
         posts: {
-          create: postData
-        }
+          create: postData,
+        },
       },
     })
     return h.response(createdUser).code(201)
@@ -67,32 +62,38 @@ async function signupHandler(
   }
 }
 
-async function getAllUsersHandler(request: Hapi.Request, h: Hapi.ResponseToolkit) {
+async function getAllUsersHandler(
+  request: Hapi.Request,
+  h: Hapi.ResponseToolkit,
+) {
   const { prisma } = request.server.app
 
   try {
     const users = await prisma.user.findMany()
     return h.response(users).code(200)
   } catch (err) {
-    console.log(err);
+    console.log(err)
   }
 }
 
-async function getDraftsByUserHandler(request: Hapi.Request, h: Hapi.ResponseToolkit) {
+async function getDraftsByUserHandler(
+  request: Hapi.Request,
+  h: Hapi.ResponseToolkit,
+) {
   const { prisma } = request.server.app
 
   const userId = Number(request.params.userId)
   try {
-
-    const drafts = await prisma.user.findUnique({
-      where: { id: userId }
-    }).posts({
-      where: { published: false }
-    })
+    const drafts = await prisma.user
+      .findUnique({
+        where: { id: userId },
+      })
+      .posts({
+        where: { published: false },
+      })
 
     return h.response(drafts).code(200)
   } catch (err) {
-    console.log(err);
-
+    console.log(err)
   }
 }

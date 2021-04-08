@@ -1,19 +1,19 @@
-import React from "react";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { signOut, useSession } from "next-auth/client";
+import React from 'react'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { signOut, useSession } from 'next-auth/client'
 
 const Header: React.FC = () => {
-  const router = useRouter();
+  const router = useRouter()
   const isActive: (pathname: string) => boolean = (pathname) =>
-    router.pathname === pathname;
+    router.pathname === pathname
 
-  const [session, loading] = useSession();
+  const [session, loading] = useSession()
 
   let left = (
     <div className="left">
       <Link href="/">
-        <a className="bold" data-active={isActive("/")}>
+        <a className="bold" data-active={isActive('/')}>
           Feed
         </a>
       </Link>
@@ -28,7 +28,7 @@ const Header: React.FC = () => {
           display: inline-block;
         }
 
-        .left a[data-active="true"] {
+        .left a[data-active='true'] {
           color: gray;
         }
 
@@ -37,15 +37,15 @@ const Header: React.FC = () => {
         }
       `}</style>
     </div>
-  );
+  )
 
-  let right = null;
+  let right = null
 
   if (loading) {
     left = (
       <div className="left">
         <Link href="/">
-          <a className="bold" data-active={isActive("/")}>
+          <a className="bold" data-active={isActive('/')}>
             Feed
           </a>
         </Link>
@@ -60,7 +60,7 @@ const Header: React.FC = () => {
             display: inline-block;
           }
 
-          .left a[data-active="true"] {
+          .left a[data-active='true'] {
             color: gray;
           }
 
@@ -69,7 +69,7 @@ const Header: React.FC = () => {
           }
         `}</style>
       </div>
-    );
+    )
     right = (
       <div className="right">
         <p>Validating session ...</p>
@@ -79,14 +79,14 @@ const Header: React.FC = () => {
           }
         `}</style>
       </div>
-    );
+    )
   }
 
   if (!session) {
     right = (
       <div className="right">
         <Link href="/api/auth/signin">
-          <a data-active={isActive("/signup")}>Log in</a>
+          <a data-active={isActive('/signup')}>Log in</a>
         </Link>
         <style jsx>{`
           a {
@@ -110,19 +110,19 @@ const Header: React.FC = () => {
           }
         `}</style>
       </div>
-    );
+    )
   }
 
   if (session) {
     left = (
       <div className="left">
         <Link href="/">
-          <a className="bold" data-active={isActive("/")}>
+          <a className="bold" data-active={isActive('/')}>
             Feed
           </a>
         </Link>
         <Link href="/drafts">
-          <a data-active={isActive("/drafts")}>My drafts</a>
+          <a data-active={isActive('/drafts')}>My drafts</a>
         </Link>
         <style jsx>{`
           .bold {
@@ -135,7 +135,7 @@ const Header: React.FC = () => {
             display: inline-block;
           }
 
-          .left a[data-active="true"] {
+          .left a[data-active='true'] {
             color: gray;
           }
 
@@ -144,7 +144,7 @@ const Header: React.FC = () => {
           }
         `}</style>
       </div>
-    );
+    )
     right = (
       <div className="right">
         <p>
@@ -190,7 +190,7 @@ const Header: React.FC = () => {
           }
         `}</style>
       </div>
-    );
+    )
   }
 
   return (
@@ -205,7 +205,7 @@ const Header: React.FC = () => {
         }
       `}</style>
     </nav>
-  );
-};
+  )
+}
 
-export default Header;
+export default Header
