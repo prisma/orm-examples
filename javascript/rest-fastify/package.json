@@ -6,11 +6,11 @@
     "dev": "node src/index.js"
   },
   "dependencies": {
-    "@prisma/client": "2.24.1",
+    "@prisma/client": "2.24.1-dev.2",
     "fastify": "3.17.0"
   },
   "devDependencies": {
-    "prisma": "2.24.1"
+    "prisma": "2.24.1-dev.2"
   },
   "engines": {
     "node": ">=10.0.0"

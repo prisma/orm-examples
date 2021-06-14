@@ -13,12 +13,12 @@
   },
   "dependencies": {
     "@grpc/proto-loader": "0.6.2",
-    "@prisma/client": "2.24.1",
+    "@prisma/client": "2.24.1-dev.2",
     "chalk": "4.1.1",
     "grpc": "1.24.10"
   },
   "devDependencies": {
-    "prisma": "2.24.1"
+    "prisma": "2.24.1-dev.2"
   },
   "engines": {
     "node": ">=10.0.0"
