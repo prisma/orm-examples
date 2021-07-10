@@ -16,7 +16,7 @@
     "next": "^10.0.0",
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
-    "react-markdown": "^5.0.0"
+    "react-markdown": "^6.0.0"
   },
   "devDependencies": {
     "prisma": "2.26.0"
