@@ -12,13 +12,13 @@
     "start": "next start"
   },
   "dependencies": {
-    "@prisma/client": "2.26.0",
+    "@prisma/client": "2.27.0-dev.59",
     "next": "^10.0.0",
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
     "react-markdown": "^5.0.0"
   },
   "devDependencies": {
-    "prisma": "2.26.0"
+    "prisma": "2.27.0-dev.59"
   }
 }

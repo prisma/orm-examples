@@ -11,13 +11,13 @@
     "test:watch": "jest --watch"
   },
   "dependencies": {
-    "@prisma/client": "2.26.0",
+    "@prisma/client": "2.27.0-dev.59",
     "jest": "^26.6.1"
   },
   "devDependencies": {
     "@types/jest": "26.0.24",
     "prettyjson": "1.2.1",
-    "prisma": "2.26.0",
+    "prisma": "2.27.0-dev.59",
     "ts-jest": "26.5.6",
     "ts-node": "10.1.0",
     "ts-node-dev": "1.1.8",
