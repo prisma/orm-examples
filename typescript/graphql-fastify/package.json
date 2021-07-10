@@ -1,0 +1,33 @@
+{
+  "name": "typescript-graphql-fastify",
+  "license": "MIT",
+  "scripts": {
+    "dev": "ts-node-dev --no-notify --respawn --transpile-only src/server",
+    "start": "node dist/server",
+    "clean": "rm -rf dist",
+    "build": "npm -s run clean && npm -s run generate && tsc",
+    "generate": "npm -s run generate:prisma && npm -s run generate:nexus",
+    "generate:prisma": "prisma generate",
+    "generate:nexus": "ts-node --transpile-only src/schema",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@prisma/client": "2.21.2",
+    "fastify": "3.12.0",
+    "graphql": "15.5.0",
+    "graphql-scalars": "1.9.0",
+    "mercurius": "7.4.0",
+    "nexus": "1.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "14.14.37",
+    "typescript": "4.2.3",
+    "ts-node": "9.1.1",
+    "ts-node-dev": "1.1.6",
+    "jest": "^26.6.3",
+    "prisma": "2.21.2"
+  },
+  "engines": {
+    "node": "14.x"
+  }
+}
