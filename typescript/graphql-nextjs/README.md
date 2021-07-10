@@ -350,7 +350,7 @@ const Mutation = objectType({
 +       bio: stringArg()
 +     }, 
 +     resolve: async (_, args, context) => {
-+       return context.prisma.profile.create({
++       return prisma.profile.create({
 +         data: {
 +           bio: args.bio,
 +           user: {
