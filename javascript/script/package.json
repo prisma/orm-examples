@@ -6,9 +6,9 @@
     "dev": "node ./script.js"
   },
   "dependencies": {
-    "@prisma/client": "2.27.0-dev.60"
+    "@prisma/client": "2.27.0-dev.61"
   },
   "devDependencies": {
-    "prisma": "2.27.0-dev.60"
+    "prisma": "2.27.0-dev.61"
   }
 }
