@@ -7,10 +7,10 @@
     "prisma:generate": "prisma generate"
   },
   "dependencies": {
-    "@prisma/client": "2.27.0-dev.62"
+    "@prisma/client": "2.27.0-dev.63"
   },
   "devDependencies": {
-    "prisma": "2.27.0-dev.62",
+    "prisma": "2.27.0-dev.63",
     "serverless-dotenv-plugin": "3.9.0"
   }
 }

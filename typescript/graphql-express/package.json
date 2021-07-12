@@ -16,7 +16,7 @@
     "trailingComma": "all"
   },
   "dependencies": {
-    "@prisma/client": "2.27.0-dev.62",
+    "@prisma/client": "2.27.0-dev.63",
     "express": "4.17.1",
     "express-graphql": "0.12.0",
     "graphql": "15.5.1",
@@ -26,7 +26,7 @@
   "devDependencies": {
     "@types/express": "4.17.13",
     "@types/node": "12.20.16",
-    "prisma": "2.27.0-dev.62",
+    "prisma": "2.27.0-dev.63",
     "ts-node": "10.1.0",
     "ts-node-dev": "1.1.8",
     "typescript": "4.3.5"
